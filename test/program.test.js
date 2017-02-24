@@ -49,7 +49,7 @@ describe('Function transformCheckpoint', function() {
 
 	transformCheckpoint(checkpointMutated);
 
-    expect(checkpoint).to.not.eql(checkpointMutated);
+    expect(checkpoint).to.eql(checkpointMutated);
   });
 
 });
