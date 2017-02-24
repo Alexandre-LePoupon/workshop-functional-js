@@ -5,11 +5,12 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha test/**",
+    "test": "mocha",
     "lint": "eslint index.js src/** test/**; exit 0;"
   },
   "dependencies": {
-    "chalk": "1.1.3"
+    "chalk": "1.1.3",
+    "lodash": "4.17.4"
   },
   "devDependencies": {
     "chai": "3.5.0",

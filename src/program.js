@@ -2,6 +2,7 @@ let chalk = require('chalk');
 
 let checkpointsService = require('./staticCheckpoints');
 
+let _ = require('lodash');
 
 let calculateDistanceWithRssi = rssi => {
   var txPower = -59; // hard coded power value. Usually ranges between -59 to -65
@@ -36,12 +37,22 @@ let transformCheckpoint = (checkpoint) => {
 
 let showCheckpoint = (checkpoint, index) => {
   console.log(chalk.green('CHECKPOINT'), chalk.yellow(index + 1));
-  for (var property in checkpoint) {
-    if (checkpoint.hasOwnProperty(property)) {
-      console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
-    }
-  }
+
+  var ret = _.chain(checkpoint)
+    .map(function(chr) {
+      console.log(chalk.cyan(chr));
+    })
+    .value();
+
+  // for (var property in checkpoint) {
+  //   if (checkpoint.hasOwnProperty(property)) {
+  //     console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
+  //   }
+  // }
+
   console.log('\n');
+
+  return ret;
 };
 
 let run = () => {
