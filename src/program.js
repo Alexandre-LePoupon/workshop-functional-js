@@ -20,6 +20,20 @@ let calculateDistanceWithRssi = rssi => {
 
 let transformCheckpoint = (checkpoint) => {
   if (checkpoint) {
+
+    // // Get back essential properties
+    // checkpoint.serviceData = checkpoint.advertisement.serviceData;
+    // checkpoint.serviceUuids = checkpoint.advertisement.serviceUuids;
+    // // Transform data about distance
+    // checkpoint.distance = calculateDistanceWithRssi(checkpoint.rssi);
+    // // Clean uninteresting properties
+    // delete checkpoint.id;
+    // delete checkpoint.address;
+    // delete checkpoint.addressType;
+    // delete checkpoint.advertisement;
+    // delete checkpoint.rssi;
+    // delete checkpoint.services;
+
     var newCheckpoint = {
       uuid: checkpoint.uuid,
       connectable: checkpoint.connectable,
@@ -28,40 +42,37 @@ let transformCheckpoint = (checkpoint) => {
       serviceUuids:checkpoint.advertisement.serviceUuids,
       distance: calculateDistanceWithRssi(checkpoint.rssi)
     };
-    // Everything is ok
-    return true;
+    
+    // return true;
+    return newCheckpoint;
   } else {
-    return false;
+    return null;
   }
 };
 
 let showCheckpoint = (checkpoint, index) => {
   console.log(chalk.green('CHECKPOINT'), chalk.yellow(index + 1));
 
-  var ret = _.chain(checkpoint)
-    .map(function(chr) {
-      console.log(chalk.cyan(chr));
-    })
-    .value();
+  // var ret = _.chain(checkpoint)
+  //   .map(function(chr) {
+  //     console.log(chalk.cyan(chr));
+  //   })
+  //   .value();
 
-  // for (var property in checkpoint) {
-  //   if (checkpoint.hasOwnProperty(property)) {
-  //     console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
-  //   }
-  // }
+  for (var property in checkpoint) {
+    if (checkpoint.hasOwnProperty(property)) {
+      console.log(chalk.cyan(property.toUpperCase()), checkpoint[property]);
+    }
+  }
 
   console.log('\n');
 
-  return ret;
+  // return ret;
 };
 
 let run = () => {
   let checkpoints = checkpointsService.getCheckpoints();
-  for (var i = 0; i < checkpoints.length; i++) {
-    let checkpoint = checkpoints[i];
-    transformCheckpoint(checkpoint);
-    showCheckpoint(checkpoint, i);
-  }
+  checkpoints.map((checkpoint,index) => showCheckpoint(transformCheckpoint(checkpoint), index));
 };
 
 module.exports = {
